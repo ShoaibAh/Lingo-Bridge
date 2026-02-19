@@ -1,0 +1,27 @@
+{
+  "name": "lingo-bridge",
+  "version": "1.0.0",
+  "description": "**Breaking the language barrier in Open Source, one repository at a time.**",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShoaibAh/Lingo-Bridge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  
+  "bugs": {
+    "url": "https://github.com/ShoaibAh/Lingo-Bridge/issues"
+  },
+  "homepage": "https://github.com/ShoaibAh/Lingo-Bridge#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "lingo.dev": "^0.131.6",
+    "octokit": "^5.0.5"
+  }
+}
