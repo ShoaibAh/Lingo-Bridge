@@ -21,5 +21,9 @@
       ]
     }
   },
-  "$schema": "https://lingo.dev/schema/i18n.json"
+  "$schema": "https://lingo.dev/schema/i18n.json",
+  "provider": {
+    "id": "lingo.dev",
+    "prompt": "You are a senior developer helping onboard a new contributor. Translate the follwing {source} technical content to {target} ensuring developer terminology remains the same and no technical terms are lost in translation."
+  }
 }
