@@ -3,6 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { LingoDotDevEngine } from "lingo.dev/sdk"; // Using the lingo.dev SDK
 import { Octokit } from "@octokit/core";
+import fs from "fs";
 
 // 1. Initialize Clients
 const lingoDotDev = new LingoDotDevEngine({
@@ -76,17 +77,23 @@ server.registerTool(
   "localize_github_issue",
   {
     description:
-      "Fetches a GitHub issue and uses lingo.dev to translate it for non-English contributors.",
+      "Fetches a GitHub issue and uses lingo.dev to translate it for non-English contributors. Automatically saves the translated content to a markdown file. Use this tool directly instead of creating helper scripts.",
     inputSchema: {
       owner: z.string(),
       repo: z.string(),
       issueNumber: z.number(),
       targetLocale: z
         .string()
-        .describe("ISO code like 'es-ES', 'zh-CN', or 'fr-FR'"),
+        .describe("ISO code like 'es-ES', 'zh-CN', 'fr-FR', or 'hi' for Hindi"),
+      outputPath: z
+        .string()
+        .optional()
+        .describe(
+          "Optional path to save the translated markdown file. Defaults to 'issue-{number}-{locale}.md'"
+        ),
     },
   },
-  async ({ owner, repo, issueNumber, targetLocale }) => {
+  async ({ owner, repo, issueNumber, targetLocale, outputPath }) => {
     // Step A: Get issue content from GitHub
     const { data: issue } = await octokit.request(
       "GET /repos/{owner}/{repo}/issues/{issue_number}",
@@ -108,11 +115,31 @@ server.registerTool(
       targetLocale,
     });
 
+    // Step C: Format the translated content
+    const markdownContent = `# GitHub Issue #${issueNumber} - ${owner}/${repo} (${targetLocale} Translation)
+
+**Title:** ${translatedTitle}
+
+---
+
+${translatedBody}
+
+---
+
+*Original Issue: https://github.com/${owner}/${repo}/issues/${issueNumber}*
+*Translated: ${new Date().toISOString().split("T")[0]}*
+`;
+
+    // Step D: Save to file
+    const finalOutputPath =
+      outputPath || `issue-${issueNumber}-${targetLocale}.md`;
+    fs.writeFileSync(finalOutputPath, markdownContent, "utf8");
+
     return {
       content: [
         {
           type: "text",
-          text: `### Translated Issue #${issueNumber}\n\n**Title:** ${translatedTitle}\n\n---\n\n${translatedBody}`,
+          text: `✅ Successfully translated GitHub Issue #${issueNumber} from ${owner}/${repo} to ${targetLocale}.\n\n**Saved to:** ${finalOutputPath}\n\n**Translated Title:** ${translatedTitle}\n\n**Translated Content:**\n${translatedBody}`,
         },
       ],
     };
