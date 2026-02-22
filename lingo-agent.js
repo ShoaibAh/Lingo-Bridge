@@ -3,6 +3,9 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { LingoDotDevEngine } from "lingo.dev/sdk"; // Using the lingo.dev SDK
 import { Octokit } from "@octokit/core";
+
+import dotenv from "dotenv";
+dotenv.config();
 import fs from "fs";
 
 // 1. Initialize Clients
