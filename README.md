@@ -117,6 +117,15 @@ To maximize impact and technical depth, Lingo-Bridge utilizes the full Lingo.dev
 - prompts like `Translate this repo README to Spanish (owner: facebook, repo: react)` will translate the README content via `localize_github_readme` and save it as `README.es.md`.
 - prompts like `Translate issue #2000 from facebook/react to es-ES` will fetch the issue via `localize_github_issue` and save it as `facebook-react-issue-2000.es` by default (or to your `outputPath`).
 
+### Quick demo video
+
+> Sidenote: If the video doesn’t render on GitHub, open `./demo/hackathon_demo.mov` directly.
+
+<video src="./demo//hackathon_demo.mov" controls>
+    Your browser does not support the video tag.
+</video>
+
+
 ## 🌍 Impact
 
 By making onboarding accessible, we increase the diversity of the Open Source community and accelerate innovation by inviting the "next billion developers" to the table.
